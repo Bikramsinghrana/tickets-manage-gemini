@@ -1,0 +1,68 @@
+# name: Scheduled Tasks
+
+# on:
+#   schedule:
+#     # Run every day at 2:00 AM UTC
+#     - cron: '0 2 * * *'
+#   workflow_dispatch: # Allow manual trigger
+
+# jobs:
+#   # ============================================
+#   # Database Backup (Daily)
+#   # ============================================
+#   backup:
+#     name: Database Backup
+#     runs-on: ubuntu-latest
+#     environment: production
+    
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Create database backup
+#         run: |
+#           echo "📦 Creating database backup..."
+#           # Add your backup commands here
+#           # Example:
+#           # ssh ${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }} 'cd /var/www/production && php artisan backup:run'
+
+#   # ============================================
+#   # Clear Old Notifications (Weekly)
+#   # ============================================
+#   cleanup:
+#     name: Cleanup Old Data
+#     runs-on: ubuntu-latest
+#     if: github.event.schedule == '0 2 * * 0' # Only on Sundays
+#     environment: production
+    
+#     steps:
+#       - name: Cleanup old notifications
+#         run: |
+#           echo "🧹 Cleaning up old data..."
+#           # ssh ${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }} 'cd /var/www/production && php artisan notifications:cleanup --days=30'
+
+#   # ============================================
+#   # Security Updates Check
+#   # ============================================
+#   security-check:
+#     name: Check Security Updates
+#     runs-on: ubuntu-latest
+    
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Setup PHP
+#         uses: shivammathur/setup-php@v2
+#         with:
+#           php-version: '8.2'
+#           coverage: none
+
+#       - name: Install dependencies
+#         run: composer install --no-progress --prefer-dist
+
+#       - name: Check for security vulnerabilities
+#         run: composer audit
+
+#       - name: Check for outdated packages
+#         run: composer outdated --direct
