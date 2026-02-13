@@ -9,7 +9,7 @@ use App\Enums\TicketPriority;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
-
+use Illuminate\Support\Facades\Log;
 class TicketRepository extends BaseRepository
 {
     protected array $searchableFields = ['title', 'description', 'ticket_number'];
@@ -21,10 +21,12 @@ class TicketRepository extends BaseRepository
     }
 
     /**
-     * Get filtered and paginated tickets
+     * Get admin & manager tickets filtered and paginated tickets
      */
     public function getFiltered(array $filters = [], ?int $perPage = null): LengthAwarePaginator
-    {
+    {  
+        
+        Log::info('TicketRepository@getFiltered called by admin or manager');
         $perPage ??= (int) config('services.pagination.per_page', 10);
 
         $query = $this->model->newQuery()

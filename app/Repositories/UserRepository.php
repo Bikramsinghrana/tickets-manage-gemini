@@ -7,6 +7,7 @@ use App\Enums\Role;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class UserRepository extends BaseRepository
 {
@@ -75,10 +76,11 @@ class UserRepository extends BaseRepository
     }
 
     /**
-     * Get filtered and paginated users
+     * Get users filtered and paginated users
      */
     public function getFiltered(array $filters = [], ?int $perPage = null): LengthAwarePaginator
     {
+        Log::info('UserRepository@getFiltered called by user');
         $perPage ??= (int) config('services.pagination.per_page', 10);
 
         $query = $this->model->newQuery()->with('roles');

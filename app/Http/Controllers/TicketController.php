@@ -14,6 +14,7 @@ use App\Enums\TicketStatus;
 use App\Enums\TicketPriority;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -33,7 +34,9 @@ class TicketController extends Controller
         $filters = $request->only(['search', 'status', 'priority', 'category_id', 'assigned_to', 'date_from', 'date_to', 'sort', 'direction']);
         
         // Non-managers only see their own tickets
+        // dd(Auth::user()->getRoleNames());
         if (!$user->canManageTickets()) {
+            // Not for Admin and Manager
             $tickets = $this->ticketService->getForUser($user, $filters);
         } else {
             $tickets = $this->ticketService->getFiltered($filters);
