@@ -10,6 +10,6 @@
         {{ $exception->getMessage() ?: 'Something went wrong on our side. Please try again later.' }}
     </p>
 
-    <a href="{{ url('/') }}">Go Home</a>
+    <a href="{{ route('home') }}">Go Home</a>
 </body>
 </html>

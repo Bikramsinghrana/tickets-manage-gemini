@@ -117,7 +117,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($e instanceof AuthorizationException) {
-            return response()->view('errors.403', [], 403);
+            return response()->view('errors.403', ['exception' => $e], 403);
         }
 
         if (
@@ -125,11 +125,11 @@ class Handler extends ExceptionHandler
             $e instanceof MethodNotAllowedHttpException ||
             $e instanceof ModelNotFoundException
         ) {
-            return response()->view('errors.404', [], 404);
+            return response()->view('errors.404', ['exception' => $e], 404);
         }
 
         if ($e instanceof QueryException || $e instanceof PDOException) {
-            return response()->view('errors.503', [], 503);
+            return response()->view('errors.503', ['exception' => $e], 503);
         }
 
         return null;

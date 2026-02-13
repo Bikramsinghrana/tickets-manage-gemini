@@ -63,7 +63,7 @@ class UserSeeder extends Seeder
         $developers = [
             [
                 'name' => 'Rana',
-                'email' => 'ranabikram8757@gmail.com',
+                'email' => 'ranabikramsingh8757@gmail.com',
                 'phone' => '+19-8765550301',
                 'department' => 'Backend Development',
                 'bio' => 'Senior backend developer specializing in PHP and Laravel.',
@@ -117,7 +117,7 @@ class UserSeeder extends Seeder
                 ['Admin', 'admin@gmailcom', 'System Administrator'],
                 ['Manager', 'manager@gmail.com', 'John Manager'],
                 ['Manager', 'manager1@youpmail.com', 'Sarah Wilson'],
-                ['Developer', 'ranabikram8757@gmail.com', 'Rana'],
+                ['Developer', 'ranabikramsingh8757@gmail.com', 'Rana'],
                 ['Developer', 'user2@yopmail.com', 'Bikram Singh'],
                 ['Developer', 'david.kumar@ticketmanager.com', 'David Kumar'],
                 ['Developer', 'lisa.thompson@ticketmanager.com', 'Lisa Thompson'],

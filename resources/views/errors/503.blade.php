@@ -10,6 +10,6 @@
         {{ $exception->getMessage() ?: 'The service is temporarily unavailable. Please try again later.' }}
     </p>
 
-    <a href="{{ url('/') }}">Go Home</a>
+    <a href="{{ route('home') }}">Go Home</a>
 </body>
 </html>
