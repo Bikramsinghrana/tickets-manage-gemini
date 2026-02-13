@@ -2,10 +2,18 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Database\QueryException; // Add this import for QueryException
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use PDOException; // Add this import for PDOException
-use Throwable; // Add this import for Throwable
+use Illuminate\Session\TokenMismatchException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
+use PDOException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -26,38 +34,104 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            //
+            Log::warning('Exception occurred: ' . $e->getMessage(), [
+                'exception' => $e,
+                'url' => request()->fullUrl(),
+                'input' => request()->all(),
+            ]);
         });
 
-        // ✅ GLOBAL DB CONNECTION ERROR HANDLING
         $this->renderable(function (Throwable $e, $request) {
-            
-            // Check for database connection errors
-            if ($e instanceof QueryException || $e instanceof PDOException) {
-
-                $message = $e->getMessage();
-
-                // DB connection lost / refused / timeout
-                if (
-                    str_contains($message, 'SQLSTATE[HY000]') ||
-                    str_contains($message, 'server has gone away') ||
-                    str_contains($message, 'Lost connection')
-                ) {
-
-                    // API request
-                    if ($request->expectsJson()) {
-                        return response()->json([
-                            'success' => false,
-                            'message' => 'Service temporarily unavailable. Please try again later.'
-                        ], 503);
-                    }
-
-                    // Web request
-                    return response()->view('errors.service-unavailable', [], 503);
-                }
+            if ($request->expectsJson() || $request->is('api/*')) {
+                return $this->handleApiException($e);
             }
 
-            return null; // let Laravel handle others
+            return $this->handleWebException($e, $request);
         });
+    }
+
+    protected function handleApiException(Throwable $e)
+    {
+        if ($e instanceof ValidationException) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+            ], 422);
+        }
+
+        if ($e instanceof AuthenticationException) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthenticated',
+                'errors' => null,
+            ], 401);
+        }
+
+        if ($e instanceof AuthorizationException) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Forbidden',
+                'errors' => null,
+            ], 403);
+        }
+
+        if (
+            $e instanceof NotFoundHttpException ||
+            $e instanceof MethodNotAllowedHttpException ||
+            $e instanceof ModelNotFoundException
+        ) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Resource not found',
+                'errors' => null,
+            ], 404);
+        }
+
+        if ($e instanceof QueryException || $e instanceof PDOException) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Service temporarily unavailable',
+                'errors' => null,
+            ], 503);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Internal server error',
+            'errors' => null,
+        ], 500);
+    }
+
+    protected function handleWebException(Throwable $e, $request)
+    {
+        if ($e instanceof TokenMismatchException) {
+            return redirect()
+                ->back()
+                ->withInput($request->except('_token'))
+                ->with('error', 'Your session has expired. Please try again.');
+        }
+
+        if ($e instanceof AuthenticationException) {
+            return redirect()->guest(url('/login'));
+        }
+
+        if ($e instanceof AuthorizationException) {
+            return response()->view('errors.403', [], 403);
+        }
+
+        if (
+            $e instanceof NotFoundHttpException ||
+            $e instanceof MethodNotAllowedHttpException ||
+            $e instanceof ModelNotFoundException
+        ) {
+            return response()->view('errors.404', [], 404);
+        }
+
+        if ($e instanceof QueryException || $e instanceof PDOException) {
+            return response()->view('errors.503', [], 503);
+        }
+
+        return null;
     }
 }

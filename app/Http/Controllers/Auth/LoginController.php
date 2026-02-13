@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 
+
 class LoginController extends Controller
 {
     public function __construct(
@@ -25,6 +26,9 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
+        // if (!view()->exists('auth.login')) {
+        //     abort(404);
+        // }
         return view('auth.login');
     }
 
@@ -90,8 +94,7 @@ class LoginController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('dashboard')
-            ->with('success', 'Account created successfully. Welcome!');
+        return redirect()->route('dashboard')->with('success', 'Account created successfully. Welcome!');
     }
 
     /**
@@ -104,8 +107,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')
-            ->with('success', 'You have been logged out successfully.');
+        return redirect()->route('login')->with('success', 'You have been logged out successfully.');
     }
 
     /**

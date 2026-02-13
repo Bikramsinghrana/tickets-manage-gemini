@@ -30,6 +30,8 @@ Route::get('/', function () {
 
 // Guest routes (Login/Register)
 Route::middleware('guest')->group(function () {
+    // dd(url()->current());
+    // dd(request()->isMethod('get') ? 'GET' : 'POST');
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1')->name('login.post');
     Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
@@ -40,14 +42,11 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
 
 // AI Chatbot API (available to all authenticated users)
-Route::post('/api/chatbot', [ChatbotController::class, 'chat'])
-    ->middleware(['auth', 'throttle:30,1'])
-    ->name('chatbot.chat');
+Route::post('/api/chatbot', [ChatbotController::class, 'chat'])->middleware(['auth', 'throttle:30,1'])->name('chatbot.chat');
 
 // Protected routes (all authenticated users)
 Route::middleware(['auth'])->group(function () {
     
-    // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // Profile
@@ -68,9 +67,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('tickets', TicketController::class);
     
     // Ticket status update (AJAX for developers)
-    Route::patch('/tickets/{ticket}/status', [TicketController::class, 'updateStatus'])
-        ->middleware('throttle:30,1')
-        ->name('tickets.update-status');
+    Route::patch('/tickets/{ticket}/status', [TicketController::class, 'updateStatus'])->middleware('throttle:30,1')->name('tickets.update-status');
     
     // Restore deleted ticket (Admin only via policy)
     Route::post('/tickets/{id}/restore', [TicketController::class, 'restore'])->name('tickets.restore') ->withTrashed();
