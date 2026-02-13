@@ -7,9 +7,9 @@ if (!function_exists('perPage')) {
     /**
      * Get pagination limit from config or default
      */
-    function perPage(int $default = 15): int
+    function perPage(?int $default = null): int
     {
-        return config('app.pagination_limit', $default);
+        return (int) config('services.pagination.per_page', $default ?? 10);
     }
 }
 

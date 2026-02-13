@@ -48,8 +48,10 @@ abstract class BaseRepository implements RepositoryInterface
         return $this->findOrFail($id)->delete();
     }
 
-    public function paginate(int $perPage = 15): LengthAwarePaginator
+    public function paginate(?int $perPage = null): LengthAwarePaginator
     {
+        $perPage ??= (int) config('services.pagination.per_page', 10);
+
         return $this->model->paginate($perPage);
     }
 

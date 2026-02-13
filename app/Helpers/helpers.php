@@ -8,7 +8,7 @@ if (!function_exists('perPage')) {
      */
     function perPage(): int
     {
-        return config('app.pagination_limit', 10);
+        return (int) config('services.pagination.per_page', 10);
     }
 }
 

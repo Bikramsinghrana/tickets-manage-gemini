@@ -77,8 +77,10 @@ class UserRepository extends BaseRepository
     /**
      * Get filtered and paginated users
      */
-    public function getFiltered(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    public function getFiltered(array $filters = [], ?int $perPage = null): LengthAwarePaginator
     {
+        $perPage ??= (int) config('services.pagination.per_page', 10);
+
         $query = $this->model->newQuery()->with('roles');
 
         if (!empty($filters['search'])) {

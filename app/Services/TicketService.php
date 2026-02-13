@@ -26,16 +26,20 @@ class TicketService
     /**
      * Get filtered tickets
      */
-    public function getFiltered(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    public function getFiltered(array $filters = [], ?int $perPage = null): LengthAwarePaginator
     {
+        $perPage ??= (int) config('services.pagination.per_page', 10);
+
         return $this->ticketRepository->getFiltered($filters, $perPage);
     }
 
     /**
      * Get tickets for a specific user
      */
-    public function getForUser(User $user, array $filters = [], int $perPage = 15): LengthAwarePaginator
+    public function getForUser(User $user, array $filters = [], ?int $perPage = null): LengthAwarePaginator
     {
+        $perPage ??= (int) config('services.pagination.per_page', 10);
+
         return $this->ticketRepository->getForUser($user, $filters, $perPage);
     }
 

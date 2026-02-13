@@ -23,8 +23,10 @@ class TicketRepository extends BaseRepository
     /**
      * Get filtered and paginated tickets
      */
-    public function getFiltered(array $filters = [], int $perPage = 15): LengthAwarePaginator
+    public function getFiltered(array $filters = [], ?int $perPage = null): LengthAwarePaginator
     {
+        $perPage ??= (int) config('services.pagination.per_page', 10);
+
         $query = $this->model->newQuery()
             ->with(['creator', 'assignee', 'category']);
 
@@ -83,8 +85,10 @@ class TicketRepository extends BaseRepository
     /**
      * Get tickets for a specific user (developer)
      */
-    public function getForUser(User $user, array $filters = [], int $perPage = 15): LengthAwarePaginator
+    public function getForUser(User $user, array $filters = [], ?int $perPage = null): LengthAwarePaginator
     {
+        $perPage ??= (int) config('services.pagination.per_page', 10);
+
         $filters['assigned_to'] = $user->id;
         return $this->getFiltered($filters, $perPage);
     }

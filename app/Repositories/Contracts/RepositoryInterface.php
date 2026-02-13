@@ -20,7 +20,7 @@ interface RepositoryInterface
     
     public function delete(int $id): bool;
     
-    public function paginate(int $perPage = 15): LengthAwarePaginator;
+    public function paginate(?int $perPage = null): LengthAwarePaginator;
     
     public function findBy(string $field, mixed $value): ?Model;
     

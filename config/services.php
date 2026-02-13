@@ -35,4 +35,8 @@ return [
         'api_key' => env('GEMINI_API_KEY'),
     ],
 
+    'pagination' => [
+        'per_page' =>  env('PAGINATION_LIMIT', 10),
+    ],
+
 ];

@@ -94,8 +94,10 @@ class NotificationService
     /**
      * Get paginated notifications
      */
-    public function getPaginated(User $user, int $perPage = 15)
+    public function getPaginated(User $user, ?int $perPage = null)
     {
+        $perPage ??= (int) config('services.pagination.per_page', 10);
+
         return $user->notifications()
             ->orderBy('created_at', 'desc')
             ->paginate($perPage);
