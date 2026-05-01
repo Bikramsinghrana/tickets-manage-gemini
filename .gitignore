@@ -3,6 +3,19 @@
 /storage/framework/cache/
 /storage/framework/sessions/
 /storage/logs/
+
+# Ignore all files in attachments
+/storage/app/public/attachments/*
+
+# Keep folders
+!/storage/app/public/attachments/*/
+
+# Ignore files inside subfolders
+/storage/app/public/attachments/**/*
+
+# Allow only .gitkeep
+!/storage/app/public/attachments/**/.gitkeep
+
 /public/storage
 /public/hot
 
