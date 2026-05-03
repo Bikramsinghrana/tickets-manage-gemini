@@ -81,8 +81,10 @@ htmlcov/
 .pytest_cache/
 
 # Build & Deployment
-/bootstrap/cache/*.php
-!/bootstrap/cache/.gitkeep
+/storage/framework/cache/
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+
 /public_html
 /dist
 *.log
