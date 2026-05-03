@@ -177,9 +177,8 @@ class TicketService
      */
     public function updateStatus(Ticket $ticket, string $status): array
     {
-        $newStatus = TicketStatus::from($status);
-        
-        // Validate status transition
+        // Validate status transition in Enum TicketStatus
+        $newStatus = TicketStatus::from($status);          
         if (!$ticket->status->canTransitionTo($newStatus)) {
             return [
                 'success' => false,

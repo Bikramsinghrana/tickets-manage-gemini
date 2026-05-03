@@ -136,12 +136,12 @@ Visit: http://localhost:8000
 |------|-------|----------|
 | Admin | admin@gmailcom | password |
 | Manager | manager@gmail.com | password |
-| Manager | manager1@youpmail.com | password |
+| Manager | manager2@youpmail.com | password |
 | Developer | ranabikram8757@gmail.com | password |
-| Developer | user2@yopmail.com | password |
-| Developer | david.kumar@ticketmanager.com | password |
-| Developer | lisa.thompson@ticketmanager.com | password |
-| Developer | alex.rodriguez@ticketmanager.com | password |
+| Developer | user@yopmail.com | password |
+| Developer | user2gmail.com | password |
+| Developer | lisa.ticketmanager.gmail.com | password |
+| Developer | alex@ticketmanager.com | password |
 
 ## Workflow
 

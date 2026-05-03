@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Sarah Wilson',
-                'email' => 'manager1@youpmail.com',
+                'email' => 'manager2@youpmail.com',
                 'phone' => '+1-555-0202',
                 'department' => 'IT Support',
                 'bio' => 'IT Support manager handling support ticket assignments.',
@@ -70,28 +70,28 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Bikram Singh',
-                'email' => 'user2@yopmail.com',
+                'email' => 'user@yopmail.com',
                 'phone' => '+1-555-0302',
                 'department' => 'Frontend Development',
                 'bio' => 'Frontend developer with expertise in React and Vue.js.',
             ],
             [
                 'name' => 'David Kumar',
-                'email' => 'david.kumar@ticketmanager.com',
+                'email' => 'user2gmail.com',
                 'phone' => '+1-555-0303',
                 'department' => 'Full Stack Development',
                 'bio' => 'Full stack developer handling both frontend and backend tasks.',
             ],
             [
                 'name' => 'Lisa Thompson',
-                'email' => 'lisa.thompson@ticketmanager.com',
+                'email' => 'lisa.ticketmanager.gmail.com',
                 'phone' => '+1-555-0304',
                 'department' => 'DevOps',
                 'bio' => 'DevOps engineer managing infrastructure and deployments.',
             ],
             [
                 'name' => 'Alex Rodriguez',
-                'email' => 'alex.rodriguez@ticketmanager.com',
+                'email' => 'alex@ticketmanager.com',
                 'phone' => '+1-555-0305',
                 'department' => 'Mobile Development',
                 'bio' => 'Mobile app developer working on iOS and Android applications.',
@@ -114,14 +114,14 @@ class UserSeeder extends Seeder
         $this->command->table(
             ['Role', 'Email', 'Name'],
             [
-                ['Admin', 'admin@gmailcom', 'System Administrator'],
-                ['Manager', 'manager@gmail.com', 'John Manager'],
-                ['Manager', 'manager1@youpmail.com', 'Sarah Wilson'],
+                ['Admin', 'admin@gmail.com', 'System Administrator'],
+                ['Manager', 'manager@gmail.com', 'Manager One'],
+                ['Manager', 'manager2@youpmail.com', 'Manager Second'],
                 ['Developer', 'ranabikramsingh8757@gmail.com', 'Rana'],
-                ['Developer', 'user2@yopmail.com', 'Bikram Singh'],
-                ['Developer', 'david.kumar@ticketmanager.com', 'David Kumar'],
-                ['Developer', 'lisa.thompson@ticketmanager.com', 'Lisa Thompson'],
-                ['Developer', 'alex.rodriguez@ticketmanager.com', 'Alex Rodriguez'],
+                ['Developer', 'user@yopmail.com', 'Bikram Singh'],
+                ['Developer', 'user2gmail.com', 'David Developer'],
+                ['Developer', 'lisa.ticketmanager.gmail.com', 'Lisa Ticket Manager'],
+                ['Developer', 'alex@ticketmanager.com', 'Alex Ticket Manager'],
             ]
         );
     }

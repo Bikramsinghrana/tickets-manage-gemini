@@ -27,10 +27,10 @@ class TicketRepository extends BaseRepository
     {  
         
         Log::info('TicketRepository@getFiltered called by admin or manager');
+
         $perPage ??= (int) config('services.pagination.per_page', 10);
 
-        $query = $this->model->newQuery()
-            ->with(['creator', 'assignee', 'category']);
+        $query = $this->model->newQuery()->with(['creator', 'assignee', 'category']);
 
         // Apply search
         if (!empty($filters['search'])) {
