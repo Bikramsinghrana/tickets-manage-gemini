@@ -1,140 +1,41 @@
-# Laravel Storage
-/storage/framework/views/
-/storage/framework/cache/
-/storage/framework/sessions/
-/storage/logs/
+# /vendor
+# /node_modules
+# .env
+# /storage/*
+# !/storage/app/public
+# /bootstrap/cache
+# !/storage/framework/
+# /storage/framework/views/
+# /storage/framework/cache/
+# /storage/framework/sessions/
+# !/storage/logs/
 
-# Ignore all files in attachments
-/storage/app/public/attachments/*
+# Vendor & Node
+/vendor/
+/node_modules/
 
-# Keep folders
-!/storage/app/public/attachments/*/
-
-# Ignore files inside subfolders
-/storage/app/public/attachments/**/*
-
-# Allow only .gitkeep
-!/storage/app/public/attachments/**/.gitkeep
-
-/public/storage
-/public/hot
-
-# Node & NPM
-/node_modules
-npm-debug.log
-yarn-error.log
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-
-# Composer
-/vendor
-
-# Environment Files
+# Environment
 .env
-.env.backup
-.env.production
-.env.local
-.env.*.local
 
-# IDE & Editor Files
-/.vscode
-/.idea
-*.sublime-project
-*.sublime-workspace
-.vscode/*
-.idea/*
-*.swp
-*.swo
-*~
-.project
-.settings/
-*.tmproj
-.atom/
+# Storage
+/storage/*
+!/storage/app/
+!/storage/app/public/
+!/storage/framework/
+!/storage/logs/
 
-# Operating System Files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-desktop.ini
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
 
-# Laravel & PHP
-/public/build
-/public/mix-manifest.json
-/public/js/app.js
-/public/css/app.css
-.phpunit.result.cache
-phpunit.xml
-auth.json
-.phpunit.cache
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
 
-# Testing & Coverage
-/coverage
-/tests/coverage
-*.coverage
-.coverage.*
-htmlcov/
-.pytest_cache/
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
 
-# Build & Deployment
-/storage/framework/cache/
+/storage/logs/*
+!/storage/logs/.gitignore
+
+# Bootstrap cache
 /bootstrap/cache/*
 !/bootstrap/cache/.gitignore
-
-/public_html
-/dist
-*.log
-
-# Homestead & Docker
-Homestead.yaml
-Homestead.json
-/.vagrant
-docker-compose.override.yml
-
-# Backup & Temporary Files
-*.bak
-*.tmp
-*.temp
-*.old
-*.orig
-*.cache
-*~
-
-# Database
-*.sql
-*.sqlite
-*.sqlite3
-*.db
-
-# Logs
-*.log
-laravel.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-
-# Documentation
-/docs/build/
-/_build/
-
-# Deployment Keys & Certificates
-*.pem
-*.key
-*.crt
-*.p12
-*.pfx
-
-# AWS & Cloud
-.elasticbeanstalk/
-.ebextensions/
-
-# Misc
-.rocketeer/
-_ide_helper.php
-_ide_helper_models.php
-.phpstorm.meta.php
