@@ -91,11 +91,11 @@ class TicketController extends Controller
 
     /**
      * Display the specified ticket.
+     * use MODEL binding
      */
     public function show(Ticket $ticket)
     {
         $this->authorize('view', $ticket);
-
         $ticket = $this->ticketService->getWithRelations($ticket->id);
         
         // Get available status transitions for developers

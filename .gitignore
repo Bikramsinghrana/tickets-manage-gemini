@@ -35,6 +35,8 @@
 
 /storage/logs/*
 !/storage/logs/.gitignore
+# Ignore all ticket attachments
+/storage/app/public/attachments/Ticket/*
 
 # Bootstrap cache
 /bootstrap/cache/*

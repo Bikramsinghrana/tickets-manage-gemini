@@ -64,7 +64,9 @@
                 <tbody>
                     @forelse($tickets as $ticket)
                     <tr>
+                        {{-- use model binding for route --}}
                         <td><a href="{{ route('tickets.show', $ticket) }}" class="fw-bold text-primary text-decoration-none">{{ $ticket->ticket_number }}</a></td>
+                        {{-- <td><a href="{{ route('tickets.show', $ticket->id) }}" class="fw-bold text-primary text-decoration-none">{{ $ticket->ticket_number }}</a></td> --}}
                         <td>{{ Str::limit($ticket->title, 35) }}</td>
                         <td>
                             @if($ticket->category)

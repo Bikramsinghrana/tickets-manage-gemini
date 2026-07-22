@@ -92,4 +92,29 @@ class NotificationController extends Controller
             'unread_count' => 0,
         ]);
     }
+
+    /**
+     * Show a single notification. Marks it as read and redirects to the
+     * notification's target URL if present, otherwise renders a detail view.
+     */
+    public function show(Request $request, string $id)
+    {  
+        $user = auth()->user();
+        $notification = $user->notifications()->find($id);
+        if (!$notification) {
+            abort(404);
+        }
+
+        if (is_null($notification->read_at)) {
+            $notification->markAsRead();
+        }
+        //  dd($notification->data);
+        $url = $notification->data['url'] ?? null;  // data get from TicketCommentNotification  class in toArray() method    
+
+        if ($url) {
+            return redirect()->to($url);
+        }
+
+        return view('notifications.show', ['notification' => $notification]);
+    }
 }

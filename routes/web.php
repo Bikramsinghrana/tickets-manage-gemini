@@ -61,6 +61,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/unread-count', [NotificationController::class, 'unreadCount'])->name('unread-count');
         Route::post('/{id}/read', [NotificationController::class, 'markAsRead'])->name('mark-read');
         Route::post('/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-read');
+        // View single notification (marks as read and redirects or shows details)
+        Route::get('/{id}', [NotificationController::class, 'show'])->name('show'); // read notification and redirect to related resource
     });
 
     // Tickets - CRUD

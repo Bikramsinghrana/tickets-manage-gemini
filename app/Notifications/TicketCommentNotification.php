@@ -17,7 +17,9 @@ class TicketCommentNotification extends Notification implements ShouldQueue
      */
     public function __construct(
         public Ticket $ticket,
-        public string $comment
+        public string $comment,
+        public ?int $commenterId = null,
+        public string $commenterName = 'Someone'
     ) {}
 
     /**
@@ -29,18 +31,35 @@ class TicketCommentNotification extends Notification implements ShouldQueue
     }
 
     /**
+     * Build a consistent absolute URL for the ticket comments section.
+     */
+    protected function buildTicketUrl(): string
+    {
+        $baseUrl = rtrim(config('app.url', url('/')), '/');
+
+        // return $baseUrl . '/tickets/' . $this->ticket->id . '#comments';
+        return route('tickets.show', $this->ticket->id);
+    }
+
+    /**
      * Get the array representation of the notification.
      */
     public function toArray(object $notifiable): array
     {
+        $isSelf = $this->commenterId !== null && $notifiable->id === $this->commenterId;
+
+        $message = $isSelf
+            ? "You commented on ticket {$this->ticket->ticket_number}"
+            : "{$this->commenterName} commented on ticket {$this->ticket->ticket_number}";
+
         return [
             'ticket_id' => $this->ticket->id,
             'ticket_number' => $this->ticket->ticket_number,
             'title' => $this->ticket->title,
             'comment_preview' => substr($this->comment, 0, 100) . (strlen($this->comment) > 100 ? '...' : ''),
-            'commenter_name' => auth()->user()?->name ?? 'Someone',
-            'message' => "New comment on ticket {$this->ticket->ticket_number}",
-            'url' => route('tickets.show', $this->ticket) . '#comments',
+            'commenter_name' => $this->commenterName,
+            'message' => $message,
+            'url' => $this->buildTicketUrl(),
         ];
     }
 
@@ -49,15 +68,20 @@ class TicketCommentNotification extends Notification implements ShouldQueue
      */
     public function toBroadcast(object $notifiable): BroadcastMessage
     {
+        $isSelf = $this->commenterId !== null && $notifiable->id === $this->commenterId;
+        $message = $isSelf
+            ? "You commented on ticket {$this->ticket->ticket_number}"
+            : "{$this->commenterName} commented on ticket {$this->ticket->ticket_number}";
+
         return new BroadcastMessage([
             'id' => $this->id,
             'type' => 'new_comment',
             'ticket_id' => $this->ticket->id,
             'ticket_number' => $this->ticket->ticket_number,
             'comment_preview' => substr($this->comment, 0, 100),
-            'commenter_name' => auth()->user()?->name ?? 'Someone',
-            'message' => "New comment on {$this->ticket->ticket_number}",
-            'url' => route('tickets.show', $this->ticket) . '#comments',
+            'commenter_name' => $this->commenterName,
+            'message' => $message,
+            'url' => $this->buildTicketUrl(),
             'created_at' => now()->toISOString(),
         ]);
     }

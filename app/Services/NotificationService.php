@@ -43,21 +43,43 @@ class NotificationService
      */
     public function sendNewComment(Ticket $ticket, string $comment): void
     {
+        $commenter = auth()->user();
         $recipients = collect();
 
+        // Do not notify the commenter themselves; only notify other parties
+
         // Add ticket creator
-        if ($ticket->creator && $ticket->creator->id !== auth()->id()) {
+        if ($ticket->creator && $ticket->creator->id !== $commenter?->id) {
             $recipients->push($ticket->creator);
         }
 
         // Add assignee
-        if ($ticket->assignee && $ticket->assignee->id !== auth()->id()) {
+        if ($ticket->assignee && $ticket->assignee->id !== $commenter?->id) {
             $recipients->push($ticket->assignee);
         }
 
+        // // Add admin and manager users so they receive ticket updates
+        // $staffRecipients = User::whereHas('roles', function ($query) {
+        //     $query->whereIn('name', ['admin', 'manager']);
+        // })->get();
+
+        // foreach ($staffRecipients as $recipient) {
+        //     if ($recipient->id !== $commenter?->id) {
+        //         $recipients->push($recipient);
+        //     }
+        // }
+
         $recipients = $recipients->unique('id');
 
-        Notification::send($recipients, new TicketCommentNotification($ticket, $comment));
+        Notification::send(
+            $recipients,
+            new TicketCommentNotification(
+                $ticket,
+                $comment,
+                $commenter?->id,
+                $commenter?->name ?? 'Someone'
+            )
+        );
     }
 
     /**

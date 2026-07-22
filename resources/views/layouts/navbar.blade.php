@@ -74,6 +74,11 @@
 
 @push('scripts')
 <script>
+    $(function () {
+        refreshUnreadCount();
+        setInterval(refreshUnreadCount, 15000);
+    });
+
     // Load notifications on dropdown open
     $('.notification-bell').on('click', function() {
         loadNotifications();
@@ -99,7 +104,7 @@
         let html = '';
         notifications.forEach(function(n) {
             html += `
-                <a href="${n.url}" class="notification-item d-block text-decoration-none ${n.is_read ? '' : 'unread'}" 
+                <a href="/notifications/${n.id}" class="notification-item d-block text-decoration-none ${n.is_read ? '' : 'unread'}" 
                    data-id="${n.id}">
                     <div class="d-flex">
                         <div class="flex-grow-1">
@@ -123,6 +128,13 @@
             $badge.hide();
         }
     }
+
+    function refreshUnreadCount() {
+        $.get('{{ route('notifications.unread-count') }}')
+            .done(function(data) {
+                updateNotificationCount(data.count);
+            });
+    }
     
     // Mark all as read
     $('#markAllRead').on('click', function(e) {
@@ -137,12 +149,6 @@
             });
     });
     
-    // Mark single notification as read on click
-    $(document).on('click', '.notification-item', function() {
-        const id = $(this).data('id');
-        if (id) {
-            $.post(`/notifications/${id}/read`);
-        }
-    });
+    // Clicking a notification opens the notification view which marks it read server-side
 </script>
 @endpush

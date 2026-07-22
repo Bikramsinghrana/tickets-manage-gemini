@@ -11,6 +11,7 @@
     </div>
     <div class="card-body p-0">
         @forelse($notifications as $notification)
+        <a href="{{ route('notifications.show', $notification->id) }}" class="text-decoration-none text-reset">
         <div class="p-3 border-bottom {{ $notification->read_at ? '' : 'bg-light' }}">
             <div class="d-flex justify-content-between">
                 <div>
@@ -19,11 +20,12 @@
                     </p>
                     <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
                 </div>
-                @if(isset($notification->data['url']))
-                <a href="{{ $notification->data['url'] }}" class="btn btn-sm btn-outline-primary">View</a>
-                @endif
+                <div>
+                    <button class="btn btn-sm btn-outline-primary">View</button>
+                </div>
             </div>
         </div>
+        </a>
         @empty
         <div class="text-center py-5 text-muted">
             <i class="fas fa-bell-slash fa-3x mb-3"></i>
