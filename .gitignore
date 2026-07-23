@@ -1,15 +1,3 @@
-# /vendor
-# /node_modules
-# .env
-# /storage/*
-# !/storage/app/public
-# /bootstrap/cache
-# !/storage/framework/
-# /storage/framework/views/
-# /storage/framework/cache/
-# /storage/framework/sessions/
-# !/storage/logs/
-
 # Vendor & Node
 /vendor/
 /node_modules/
@@ -24,19 +12,28 @@
 !/storage/framework/
 !/storage/logs/
 
+# Ignore uploaded attachments
+/storage/app/public/*
+!/storage/app/public/.gitignore
+
+/storage/app/public/attachments/*
+/storage/app/public/attachments/**
+
+# Framework cache
 /storage/framework/cache/*
 !/storage/framework/cache/.gitignore
 
+# Framework sessions
 /storage/framework/sessions/*
 !/storage/framework/sessions/.gitignore
 
+# Framework views (compiled Blade views)
 /storage/framework/views/*
 !/storage/framework/views/.gitignore
 
+# Logs
 /storage/logs/*
 !/storage/logs/.gitignore
-# Ignore all ticket attachments
-/storage/app/public/attachments/Ticket/*
 
 # Bootstrap cache
 /bootstrap/cache/*
